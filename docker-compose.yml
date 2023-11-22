@@ -1,0 +1,47 @@
+version: '3'
+services:
+    app:
+      container_name: testProj
+      restart: always
+      build: .
+      ports:
+      - '5500:5500'
+      depends_on:
+      - mongo
+      environment:
+       NODE_ENV: ${NODE_ENV}
+       MONGO_URI: mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongo/?authSource=admin
+       CHOKIDAR_USEPOLLING: "true"
+      networks:
+       - myNet
+
+            
+    mongo:
+      container_name: mongo
+      image: mongo
+      environment:
+       MONGO_INITDB_DATABASE: ${DB_NAME}
+       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      volumes:
+      - ./data:/data/db
+      ports:
+      - '27017:27017'
+      networks:
+       - myNet
+ 
+            
+    mongo-express: 
+      container_name: mongo-express
+      image: mongo-express
+      ports: 
+      - '8083:8081'
+      networks:
+       - myNet
+
+networks:
+  myNet:
+    driver: bridge
+      
+
+  

@@ -32,7 +32,7 @@ app.use("/api/auth",require("./routes/auth"));
 app.use("/sch",require("./routes/Addscholarships"))
 app.use("/chatsection",require("./routes/Chatmessages"))
 
-mongoose.connect("mongodb://127.0.0.1:27017/scholarships").then(()=>{
+mongoose.connect("mongodb://localhost:27017/scholarships").then(()=>{
     console.log("Connected to database");
     app.listen(process.env.PORT, ()=>{
         console.log("Server running in port "+process.env.PORT);
