@@ -1,0 +1,75 @@
+version: '3'
+services:
+    app1:
+      build: ./ScholarshipHubBackend
+      restart: always
+      tty: true
+      env_file:
+       - ./ScholarshipHubBackend/.env
+      # ports:
+      # - '5500:5500'
+      links:
+      - mongo
+
+
+    app2:
+      build: ./ScholarshipHubBackend
+      restart: always
+      tty: true
+      env_file:
+       - ./ScholarshipHubBackend/.env
+      # ports:
+      # - '5500:5500'
+      links:
+      - mongo
+
+
+    app3:
+      build: ./ScholarshipHubBackend
+      restart: always
+      tty: true
+      env_file:
+       - ./ScholarshipHubBackend/.env
+      # ports:
+      # - '5500:5500'
+      links:
+      - mongo
+
+            
+    mongo:
+      container_name: mongo
+      image: mongo
+      restart: always
+      volumes:
+      - ./data:/data/db
+      ports:
+      - '27017:27017'
+
+
+    loadbalancer:
+      build: ./LoadBalancer
+      tty: true
+      restart: always
+      links:
+        - app1
+        - app2
+        - app3
+      ports: 
+        - '8000:8000'
+
+    # mongo-express: 
+    #   container_name: mongo-express
+    #   image: mongo-express
+    #   ports: 
+    #    - '8083:8081'
+    #   networks:
+    #    - myNet
+ 
+
+
+networks:
+  myNet:
+    driver: bridge
+      
+
+  
